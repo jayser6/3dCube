@@ -5,14 +5,14 @@ import java.awt.Color;
 
 public class DrawingSurface extends PApplet {
 
-	private final int WIDTH = 800, HEIGHT = 600, xLoc = -400, yLoc = -300;
-	private final float rate = 0.1f;
+	private final int WIDTH = 800, HEIGHT = 800, xLoc = 150, yLoc = 150;
+	private final float rate = 0.01f;
 
 	private final Color red = new Color(255, 0, 0), blue = new Color(0, 0, 255), green = new Color(0, 255, 0),
 			yellow = new Color(255, 255, 0), orange = new Color(255, 165, 0),
 			white = new Color(255, 255, 255), nonVisible = new Color(0, 0, 0, 0);
 
-	private float x, y;
+	private float rx, ry;
 
 	public DrawingSurface() {
 
@@ -31,16 +31,21 @@ public class DrawingSurface extends PApplet {
 	@Override
 	public void mouseDragged() {
 		if (mousePressed) {
-			y += (mouseX - pmouseX) * rate;
-			x += (pmouseY - mouseY) * rate;
+			ry += (mouseX - pmouseX) * rate;
+			rx += (pmouseY - mouseY) * rate;
 		}
 	}
 
 	public void multiColoredBox(Color f1, Color f2, Color f3, Color f4, Color f5, Color f6, float x, float y,
 			float z) {
+
 		pushStyle();
 		pushMatrix();
-		translate(x, y, z);
+		translate(x + WIDTH / 2, y + HEIGHT / 2, z);
+
+		rotateX(rx);
+		rotateY(ry);
+
 		noStroke();
 		scale(45);
 		beginShape(QUADS);
@@ -95,8 +100,7 @@ public class DrawingSurface extends PApplet {
 
 	@Override
 	public void draw() {
-		rotateX(this.x);
-		rotateY(this.y);
+		background(0xC0FFEE);
 
 		// Top Left Section
 		multiColoredBox(red, nonVisible, nonVisible, blue, nonVisible, green, -xLoc, -yLoc, 0);
